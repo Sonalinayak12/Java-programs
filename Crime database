@@ -1,0 +1,63 @@
+c-- 1. CriminalDetails Table
+CREATE TABLE CriminalDetails (
+    Criminal_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Gender VARCHAR(10),
+    Address TEXT,
+    Contact_Number VARCHAR(15)
+);
+
+-- 2. CrimeRecord Table
+CREATE TABLE CrimeRecord (
+    Crime_ID INT PRIMARY KEY,
+    Type_of_Crime VARCHAR(100),
+    Location VARCHAR(255),
+    Date DATE,
+    Time TIME,
+    Description TEXT,
+    Criminal_ID INT,
+    FOREIGN KEY (Criminal_ID) REFERENCES CriminalDetails(Criminal_ID)
+);
+
+-- 3. PoliceStation Table
+CREATE TABLE PoliceStation (
+    Station_ID INT PRIMARY KEY,
+    Station_Name VARCHAR(100),
+    Location VARCHAR(255),
+    Contact_Number VARCHAR(15),
+    Officer_in_Charge VARCHAR(100)
+);
+
+-- 4. VictimDetails Table
+CREATE TABLE VictimDetails (
+    Victim_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Gender VARCHAR(10),
+    Contact VARCHAR(15),
+    Address TEXT,
+    Crime_ID INT,
+    FOREIGN KEY (Crime_ID) REFERENCES CrimeRecord(Crime_ID)
+);
+
+-- 5. Investigation Table
+CREATE TABLE Investigation (
+    Investigation_ID INT PRIMARY KEY,
+    Crime_ID INT,
+    Start_Date DATE,
+    End_Date DATE,
+    Status VARCHAR(50),
+    Remarks TEXT,
+    FOREIGN KEY (Crime_ID) REFERENCES CrimeRecord(Crime_ID)
+);
+
+-- 6. WitnessDetails Table
+CREATE TABLE WitnessDetails (
+    Witness_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Contact VARCHAR(15),
+    Statement TEXT,
+    Crime_ID INT,
+    FOREIGN KEY (Crime_ID) REFERENCES CrimeRecord(Crime_ID)
+);
