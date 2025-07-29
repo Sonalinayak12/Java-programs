@@ -1,0 +1,4 @@
+INSERT INTO WitnessDetails (Witness_ID, Name, Contact, Statement, Crime_ID)
+VALUES 
+(401, 'Sundar M', '9871234560', 'Saw the thief running with a black bag', 1001),
+(402, 'Lakshmi N', '9911223344', 'Heard shouting and saw the fight', 1002);
