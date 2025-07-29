@@ -1,0 +1,4 @@
+INSERT INTO PoliceStation (Station_ID, Station_Name, Location, Contact_Number, Officer_in_Charge)
+VALUES 
+(1, 'North Zone Station', 'Coimbatore', '0422-2456789', 'Inspector Ramesh'),
+(2, 'South Zone Station', 'Madurai', '0452-3366987', 'Inspector Kavitha');
