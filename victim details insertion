@@ -1,0 +1,4 @@
+INSERT INTO VictimDetails (Victim_ID, Name, Age, Gender, Contact, Address, Crime_ID)
+VALUES 
+(201, 'Meena S', 42, 'Female', '9887766554', 'Peelamedu, Coimbatore', 1001),
+(202, 'Vikram J', 35, 'Male', '9778877665', 'Anna Nagar, Madurai', 1002);
