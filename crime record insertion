@@ -1,0 +1,4 @@
+INSERT INTO CrimeRecord (Crime_ID, Type_of_Crime, Location, Date, Time, Description, Criminal_ID)
+VALUES 
+(1001, 'Theft', 'Coimbatore Market', '2025-07-10', '20:45:00', 'Stolen purse in crowded area', 101),
+(1002, 'Assault', 'Madurai Railway Station', '2025-07-15', '18:30:00', 'Physical assault reported by victim', 102);
