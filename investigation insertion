@@ -1,0 +1,4 @@
+INSERT INTO Investigation (Investigation_ID, Crime_ID, Start_Date, End_Date, Status, Remarks)
+VALUES 
+(301, 1001, '2025-07-11', NULL, 'Open', 'Waiting for CCTV footage'),
+(302, 1002, '2025-07-16', '2025-07-20', 'Closed', 'Charges filed against criminal');
