@@ -1,0 +1,4 @@
+INSERT INTO CriminalDetails (Criminal_ID, Name, Age, Gender, Address, Contact_Number)
+VALUES 
+(101, 'Raj Kumar', 34, 'Male', 'Chennai, TN', '9876543210'),
+(102, 'Priya Sharma', 29, 'Female', 'Mumbai, MH', '9123456780');
