@@ -1,0 +1,173 @@
+ 1. DDL: CREATE TABLES
+-- ========================================
+
+CREATE TABLE CriminalDetails (
+    Criminal_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Gender VARCHAR(10),
+    Address TEXT,
+    Contact_Number VARCHAR(15)
+);
+
+CREATE TABLE PoliceStation (
+    Station_ID INT PRIMARY KEY,
+    Station_Name VARCHAR(100),
+    Location VARCHAR(255),
+    Contact_Number VARCHAR(15),
+    Officer_in_Charge VARCHAR(100)
+);
+
+CREATE TABLE CrimeRecord (
+    Crime_ID INT PRIMARY KEY,
+    Type_of_Crime VARCHAR(100),
+    Location VARCHAR(255),
+    Date DATE,
+    Time TIME,
+    Description TEXT,
+    Criminal_ID INT,
+    FOREIGN KEY (Criminal_ID) REFERENCES CriminalDetails(Criminal_ID)
+);
+
+CREATE TABLE VictimDetails (
+    Victim_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Gender VARCHAR(10),
+    Contact VARCHAR(15),
+    Address TEXT,
+    Crime_ID INT,
+    FOREIGN KEY (Crime_ID) REFERENCES CrimeRecord(Crime_ID)
+);
+
+CREATE TABLE Investigation (
+    Investigation_ID INT PRIMARY KEY,
+    Crime_ID INT,
+    Start_Date DATE,
+    End_Date DATE,
+    Status VARCHAR(50),
+    Remarks TEXT,
+    FOREIGN KEY (Crime_ID) REFERENCES CrimeRecord(Crime_ID)
+);
+
+CREATE TABLE WitnessDetails (
+    Witness_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Contact VARCHAR(15),
+    Statement TEXT,
+    Crime_ID INT,
+    FOREIGN KEY (Crime_ID) REFERENCES CrimeRecord(Crime_ID)
+);
+
+-- ALTER TABLE
+ALTER TABLE CrimeRecord ADD FIR_Number VARCHAR(20);
+
+-- RENAME COLUMN
+ALTER TABLE VictimDetails RENAME COLUMN Contact TO Contact_Number;
+
+-- DROP COLUMN
+ALTER TABLE WitnessDetails DROP COLUMN Statement;
+
+-- DROP TABLE (example only)
+DROP TABLE IF EXISTS Example;
+
+-- ========================================
+-- 🟢 2. DML: INSERT, UPDATE, DELETE
+-- ========================================
+
+-- INSERTS
+INSERT INTO CriminalDetails VALUES
+(101, 'Raj Kumar', 34, 'Male', 'Chennai, TN', '9876543210'),
+(102, 'Priya Sharma', 29, 'Female', 'Mumbai, MH', '9123456780');
+
+INSERT INTO PoliceStation VALUES
+(1, 'North Zone Station', 'Coimbatore', '0422-2456789', 'Inspector Ramesh'),
+(2, 'South Zone Station', 'Madurai', '0452-3366987', 'Inspector Kavitha');
+
+INSERT INTO CrimeRecord VALUES
+(1001, 'Theft', 'Coimbatore Market', '2025-07-10', '20:45:00', 'Stolen purse in crowded area', 101),
+(1002, 'Assault', 'Madurai Railway Station', '2025-07-15', '18:30:00', 'Physical assault reported by victim', 102);
+
+INSERT INTO VictimDetails VALUES
+(201, 'Meena S', 42, 'Female', '9887766554', 'Peelamedu, Coimbatore', 1001),
+(202, 'Vikram J', 35, 'Male', '9778877665', 'Anna Nagar, Madurai', 1002);
+
+INSERT INTO Investigation VALUES
+(301, 1001, '2025-07-11', NULL, 'Open', 'Waiting for CCTV footage'),
+(302, 1002, '2025-07-16', '2025-07-20', 'Closed', 'Charges filed against criminal');
+
+INSERT INTO WitnessDetails VALUES
+(401, 'Sundar M', '9871234560', 1001),
+(402, 'Lakshmi N', '9911223344', 1002);
+
+-- UPDATE
+UPDATE CrimeRecord
+SET Description = 'Mobile phone theft in market'
+WHERE Crime_ID = 1001;
+
+-- DELETE
+DELETE FROM VictimDetails WHERE Victim_ID = 202;
+
+-- ========================================
+-- 🟣 3. DQL: SELECT QUERIES
+-- ========================================
+
+-- Basic SELECT
+SELECT * FROM CriminalDetails;
+SELECT Name, Age FROM VictimDetails;
+
+-- WHERE clause
+SELECT * FROM CrimeRecord WHERE Type_of_Crime = 'Theft';
+
+-- ORDER BY
+SELECT * FROM Investigation ORDER BY Start_Date DESC;
+
+-- GROUP BY
+SELECT Type_of_Crime, COUNT(*) AS TotalCases FROM CrimeRecord GROUP BY Type_of_Crime;
+
+-- JOIN
+SELECT C.Name AS CriminalName, R.Type_of_Crime
+FROM CriminalDetails C
+JOIN CrimeRecord R ON C.Criminal_ID = R.Criminal_ID;
+
+-- Aggregate
+SELECT AVG(Age) AS AverageVictimAge FROM VictimDetails;
+
+-- Subquery
+SELECT Crime_ID FROM CrimeRecord
+WHERE Crime_ID IN (
+    SELECT Crime_ID FROM PoliceStation
+    WHERE Officer_in_Charge = 'Inspector Ramesh'
+);
+
+-- EXISTS
+SELECT * FROM CrimeRecord
+WHERE EXISTS (
+    SELECT * FROM VictimDetails WHERE Crime_ID = CrimeRecord.Crime_ID
+);
+
+-- ========================================
+-- 🟡 4. DCL: ACCESS CONTROL
+-- ========================================
+
+-- GRANT
+GRANT SELECT, INSERT ON CrimeRecord TO user_name;
+
+-- REVOKE
+REVOKE INSERT ON CrimeRecord FROM user_name;
+
+-- ========================================
+-- 🔴 5. TCL: TRANSACTIONS
+-- ========================================
+
+-- Start transaction
+START TRANSACTION;
+
+-- Example operation
+UPDATE Investigation SET Status = 'Closed' WHERE Investigation_ID = 301;
+
+-- Commit
+COMMIT;
+
+-- Rollback
+ROLLBACK;
